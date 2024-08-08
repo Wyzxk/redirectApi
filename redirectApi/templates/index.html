@@ -4,11 +4,24 @@
     <meta charset="UTF-8">
     <title>Redireccionando...</title>
     <script type="text/javascript">
-        // Construir la URL de redirección con las variables
+        // Obtener los valores de las variables
         var usuario = "{{ usuario }}";
         var pedido = "{{ pedido }}";
         var estado = "{{ estado }}";
 
+        console.log('Usuario:', usuario);
+        console.log('Pedido:', pedido);
+        console.log('Estado:', estado);
+
+        // Construir la URL de redirección
+        var redirectUrl = "http://localhost:5173/checkout?idUser=" + encodeURIComponent(usuario) + "&idPedido=" + encodeURIComponent(pedido) + "&status=" + encodeURIComponent(estado);
+
+        // Redirigir automáticamente después de un breve retraso
+        window.onload = function() {
+            setTimeout(function() {
+                window.location.href = redirectUrl;
+            }, 5000); // Retraso de 1 segundo
+        };
     </script>
 </head>
 <body>
