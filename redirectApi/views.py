@@ -5,10 +5,7 @@ import requests
 
 @api_view(['GET'])
 def index(request, idUser, idPedido, status):
-    if idUser:
-        return render(request,'index.html')
-    else: 
-        return render(request,'index2.html')
+    return render(request,'index.html')
     # La vista ahora recibe parámetros de URL directamente
     # if idUser:
     #     print(idUser)
