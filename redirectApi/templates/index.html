@@ -8,8 +8,13 @@
         var usuario = "{{ usuario }}";
         var pedido = "{{ pedido }}";
         var estado = "{{ estado }}";
-        var url = "http://localhost:5173/checkout?idUser=" + encodeURIComponent(usuario) + "&idPedido=" + encodeURIComponent(pedido) + "&status=" + encodeURIComponent(estado);
-        window.location.href = url;
+        if (usuario){
+            var url = "http://localhost:5173/checkout?idUser=" + encodeURIComponent(usuario) + "&idPedido=" + encodeURIComponent(pedido) + "&status=" + encodeURIComponent(estado);
+            window.location.href = url;
+        }else{
+            var url = "http://localhost:51730/checkout?idUser=" + encodeURIComponent(usuario) + "&idPedido=" + encodeURIComponent(pedido) + "&status=" + encodeURIComponent(estado);
+            window.location.href = url;
+        }
     </script>
 </head>
 <body>

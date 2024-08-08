@@ -7,7 +7,7 @@ import requests
 def index(request, idUser, idPedido, status):
     # Aquí ya no se verifica si idUser tiene valor
     print(idUser)
-    print(status)
+    print(status + "hoal")
     
     # Ejemplo de cómo enviar datos a otra API usando requests
     api_url = 'http://127.0.0.1:8000/auth/check/'
