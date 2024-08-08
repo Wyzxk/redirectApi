@@ -11,6 +11,7 @@ def index(request):
        idUser = request.query_params.get('idUser')
        idPedido = request.query_params.get('idPedido')
        status = request.query_params.get('status')
+
        if idUser:
            print(idUser)
            print(status)
@@ -25,14 +26,16 @@ def index(request):
            response = requests.post(api_url, data=data)
            if response.status_code == 200:
                print('Datos enviados correctamente a la API')
+               # Pasar las variables a la plantilla
+               return render(request, 'index.html', {
+                   'usuario': idUser,
+                   'pedido': idPedido,
+                   'estado': status,
+               })
            else:
                print('Error al enviar datos a la API:', response.status_code)
 
-       else: 
+       else:
            print('nada')
-       return render(request, 'index.html', {
-           'usuario': idUser,
-           'pedido': idPedido,
-           'estado': status,
-       })
+           return render(request, 'index.html')
     return render(request, 'index.html')
