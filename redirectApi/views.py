@@ -37,3 +37,6 @@ def index(request, idUser, idPedido, status):
         return render(request, 'index.html', {
             'error': 'No se proporcionaron los parámetros necesarios.'
         })
+
+def checkout(request):
+    return render(request, 'index2.html')
