@@ -5,14 +5,6 @@ import requests
 
 @api_view(['GET'])
 def index(request, idUser, idPedido, status):
-    # Renderizar la plantilla con las variables inmediatamente
-    context = {
-        'idUser': idUser,
-        'idPedido': idPedido,
-        'status': status,
-    }
-    response = render(request, 'index.html', context)
-
     # Realizar la petición a la API después de renderizar la respuesta
     api_url = 'http://127.0.0.1:8000/auth/check/'
     data = {
@@ -31,7 +23,11 @@ def index(request, idUser, idPedido, status):
     except requests.RequestException as e:
         print(f'Error en la solicitud a la API: {e}')
     
-    return response
+    return render(request,'index.html',{
+        'idUser': idUser,
+        'idPedido': idPedido,
+        'status': status,
+    })
         
 def checkout(request):
     return render(request, 'index2.html')
