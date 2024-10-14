@@ -1,33 +1,30 @@
-from rest_framework.decorators import api_view
+from django.core.mail import send_mail
+from django.conf import settings
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from django.shortcuts import render
-import requests
 
-@api_view(['GET'])
-def index(request, idUser, idPedido, status):
-    # Realizar la petición a la API después de renderizar la respuesta
-    api_url = 'http://127.0.0.1:8000/auth/check/'
-    data = {
-        'idUser': idUser,
-        'idPedido': idPedido,
-        'status': status,
-    }
-    
-    try:
-        # Hacer la petición a la API
-        api_response = requests.post(api_url, data=data)
-        if api_response.status_code == 200:
-            print('Datos enviados correctamente a la API')
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def sendMessage(request):
+    if request.method == 'POST':
+        email = request.data.get('email')
+        name = request.data.get('name')
+        topic = request.data.get('topic')
+        message = request.data.get('message')
+
+        # Verificar que se proporcionen todos los datos
+        if email and name and topic and message:
+            # Enviar el correo
+            eTopic = topic
+            eMessage = f"Mensaje: {message}\nNombre: {name}\nEmail: {email}"
+            eEmail = settings.EMAIL_HOST_USER
+            recipient = ["jhonkerteje1@gmail.com"]
+
+            try:
+                send_mail(eTopic, eMessage, eEmail, recipient)
+                return Response({'message': 'Correo enviado correctamente'}, status=200)
+            except Exception as e:
+                return Response({'error': f'Error al enviar el correo: {str(e)}'}, status=500)
         else:
-            print('Error al enviar datos a la API:', api_response.status_code)
-    except requests.RequestException as e:
-        print(f'Error en la solicitud a la API: {e}')
-    
-    return render(request,'index.html',{
-        'idUser': idUser,
-        'idPedido': idPedido,
-        'status': status,
-    })
-        
-def checkout(request):
-    return render(request, 'index2.html')
+            return Response({'error': 'Faltan datos en el formulario'}, status=400)
